@@ -37,10 +37,8 @@ jobs:
       - name: Build & publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # macOS signing (optional — add these secrets to sign & notarize):
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        # To code-sign macOS later, add the signing secrets in the repo and
+        # reintroduce them here (CSC_LINK, CSC_KEY_PASSWORD, APPLE_ID,
+        # APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID). Passing them EMPTY breaks
+        # the build — electron-builder treats an empty CSC_LINK as a cert path.
         run: ${{ matrix.build }} -- --publish always
