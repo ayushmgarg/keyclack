@@ -1,0 +1,40 @@
+node_modules/
+release/
+dist/
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+# generated assets (produced by postinstall scripts)
+assets/sounds/default/*.wav
+assets/icon.png
+assets/icons/
+build/icon.png
+build/icon.ico
+build/icon.icns
+build/icons/
+.env
+.env.*
+
+# Claude / AI tooling
+.claude/
+CLAUDE.md
+
+# editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS junk
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# misc caches / temp
+.cache/
+tmp/
+*.tmp
+coverage/
+*.tsbuildinfo

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' data: blob:;" />
+  <title>Keyclack</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <span>Keyclack</span>
+      </div>
+      <nav class="nav">
+        <button class="nav-item active" data-view="home"><i class="ic ic-power"></i>Home</button>
+        <button class="nav-item" data-view="sounds"><i class="ic ic-wave"></i>Sounds</button>
+        <button class="nav-item" data-view="stats"><i class="ic ic-chart"></i>Stats</button>
+        <button class="nav-item" data-view="test"><i class="ic ic-key"></i>Typing Test</button>
+        <button class="nav-item" data-view="settings"><i class="ic ic-gear"></i>Settings</button>
+      </nav>
+      <div class="side-foot">
+        <span id="side-status" class="pill off">Off</span>
+        <span id="side-version" class="ver"></span>
+      </div>
+    </aside>
+
+    <!-- main -->
+    <main class="content">
+      <!-- HOME -->
+      <section class="view active" data-view="home">
+        <div class="power-wrap">
+          <button id="power" class="power" aria-label="Toggle sound">
+            <span class="power-ring"></span>
+            <span class="power-ico"></span>
+          </button>
+          <h1 id="power-title">Sound Off</h1>
+          <p id="power-sub" class="muted">Click to start hearing your keystrokes.</p>
+        </div>
+
+        <div class="home-row">
+          <div class="card">
+            <label class="card-label">Volume <span id="vol-val">60%</span></label>
+            <input id="volume" class="slider" type="range" min="10" max="100" value="60" />
+            <button id="test-sound" class="btn ghost">▶ Test sound</button>
+          </div>
+          <div class="card">
+            <label class="card-label">Active pack</label>
+            <div id="home-pack" class="pack-name">Default</div>
+            <button class="btn ghost" data-goto="sounds">Change sound</button>
+          </div>
+          <div class="card">
+            <label class="card-label">This session</label>
+            <b id="home-session" class="bignum">0</b>
+            <span class="muted">keystrokes</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SOUNDS -->
+      <section class="view" data-view="sounds">
+        <div class="view-head"><h2>Sounds</h2><p class="muted">Pick a pack or upload your own.</p></div>
+        <div id="pack-list" class="pack-list"></div>
+        <div class="row-actions">
+          <button id="import-sound" class="btn primary">+ Upload sound</button>
+        </div>
+        <div class="card toggle-card">
+          <div><b>Play on key release</b><span class="muted">A quieter click when keys come back up.</span></div>
+          <label class="switch"><input id="play-release" type="checkbox" /><span></span></label>
+        </div>
+      </section>
+
+      <!-- STATS -->
+      <section class="view" data-view="stats">
+        <div class="view-head">
+          <h2>Statistics</h2>
+          <button id="reset-stats" class="btn ghost danger">Reset</button>
+        </div>
+        <div id="stats-body"></div>
+      </section>
+
+      <!-- TEST -->
+      <section class="view" data-view="test">
+        <div class="view-head"><h2>Typing Test</h2><p class="muted">Your keystroke sounds play as you type.</p></div>
+        <div id="typing-test" class="typing-test"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view" data-view="settings">
+        <div class="view-head"><h2>Settings</h2></div>
+
+        <div class="card toggle-card">
+          <div><b>Hold to repeat</b><span class="muted">Holding a key fires continuously instead of once.</span></div>
+          <label class="switch"><input id="hold-repeat" type="checkbox" /><span></span></label>
+        </div>
+        <div class="card toggle-card">
+          <div><b>Modifier keys</b><span class="muted">Play sound for Shift / Ctrl / Alt / ⌘ too.</span></div>
+          <label class="switch"><input id="modifier-keys" type="checkbox" /><span></span></label>
+        </div>
+        <div class="card toggle-card">
+          <div><b>Launch at login</b><span class="muted">Start Keyclack automatically.</span></div>
+          <label class="switch"><input id="launch-login" type="checkbox" /><span></span></label>
+        </div>
+        <div class="card toggle-card">
+          <div><b>Minimize to tray on close</b><span class="muted">Keep running in the background.</span></div>
+          <label class="switch"><input id="minimize-tray" type="checkbox" /><span></span></label>
+        </div>
+
+        <div class="card">
+          <label class="card-label">Appearance</label>
+          <div class="seg" id="theme-seg">
+            <button data-theme-choice="system" class="on">System</button>
+            <button data-theme-choice="light">Light</button>
+            <button data-theme-choice="dark">Dark</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <label class="card-label">Updates</label>
+          <div class="update-row">
+            <span id="update-status" class="muted">Up to date.</span>
+            <button id="check-update" class="btn ghost">Check now</button>
+            <button id="install-update" class="btn primary" hidden>Restart to update</button>
+          </div>
+        </div>
+
+        <div class="card privacy">
+          <b>Private by design</b>
+          <span class="muted">Keyclack detects key presses to play sounds and counts them for stats. It never records, stores, or sends what you type. Everything stays on this device.</span>
+        </div>
+
+        <div class="row-actions">
+          <span class="muted">Keyclack <span id="settings-version"></span></span>
+          <button id="quit-app" class="btn ghost danger">Quit Keyclack</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="words.js"></script>
+  <script src="keycodes.js"></script>
+  <script src="sound-engine.js"></script>
+  <script src="stats-view.js"></script>
+  <script src="typing-test.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

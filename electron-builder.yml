@@ -1,0 +1,58 @@
+appId: com.keyclack.app
+productName: Keyclack
+copyright: Copyright © 2026 Ayush Garg
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - "src/**/*"
+  - "assets/**/*"
+  - "package.json"
+
+# Native modules (uiohook-napi) must be unpacked from the asar
+asarUnpack:
+  - "**/node_modules/uiohook-napi/**"
+
+# Publish target: GitHub Releases — this is the auto-update feed
+publish:
+  provider: github
+  owner: ayushmgarg
+  repo: keyclack
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: build/icon.png
+  artifactName: "${productName}-${version}-win-${arch}.${ext}"
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Keyclack
+
+mac:
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+  icon: build/icon.png
+  category: public.app-category.utilities
+  artifactName: "${productName}-${version}-mac-${arch}.${ext}"
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    NSAppleEventsUsageDescription: Keyclack needs to detect key presses to play sounds.
+    LSUIElement: false
+
+dmg:
+  artifactName: "${productName}-${version}-mac-${arch}.${ext}"
