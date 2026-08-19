@@ -6,7 +6,6 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 # generated assets (produced by postinstall scripts)
-assets/sounds/default/*.wav
 assets/icon.png
 assets/icons/
 build/icon.png

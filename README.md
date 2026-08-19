@@ -1,108 +1,102 @@
+<div align="center">
+
 # ⌨️ Keyclack
 
-A cross-platform (**Windows + macOS**) desktop app that plays a satisfying sound
-on every keystroke, system-wide — in the spirit of
-[ShotgunKeyboard](https://www.shotgunkeyboard.com/), plus:
+**Hear every keystroke.** A lightweight desktop app that plays a sound on every
+key you press, system-wide — with a live stats dashboard, a built-in typing
+test, and fully customizable sounds.
 
-- 📊 **Live stats dashboard** — total keystrokes, per-key counts, daily activity, best WPM
-- ⚡ **Monkeytype-style typing test** — 15 / 30 / 60s, live WPM · accuracy · raw · consistency
-- 🎛️ **Customizable sounds** — a bundled default, or upload your own sound file
-- 🌗 **Simple, VPN-style UI** with a big on/off toggle and dark mode
-- 🔄 **Auto-update** from GitHub Releases — ship an update and every install gets it
+Windows · macOS
+
+</div>
+
+---
 
 > **Private by design.** Keyclack detects key *presses* to play sounds and counts
-> them for stats. It never records, stores, or transmits *what* you type. All data
-> stays local on the device.
+> them for stats. It never records, stores, or transmits *what* you type.
+> Everything stays local on your device.
 
-## Install
+## Download
 
-**Just want the app?** No cloning, no Node needed — grab the installer from the
-[**Releases**](https://github.com/ayushmgarg/keyclack/releases/latest) page:
+No cloning, no Node — just grab the installer from the
+[**Releases**](https://github.com/ayushmgarg/keyclack/releases/latest) page.
 
-- **Windows** — download `Keyclack-<version>-win-x64.exe`, run it, done.
+- **Windows** — download the `.exe`, run it.
 - **macOS** — download the `.dmg` (`arm64` for Apple Silicon, `x64` for Intel),
-  open it, drag Keyclack to Applications. First launch: right-click → **Open**
-  (unsigned app), then grant **Input Monitoring** when asked.
+  drag Keyclack to Applications. First launch: right-click → **Open**, then grant
+  **Input Monitoring** when prompted.
 
-### One-line install (Windows PowerShell)
-
-Downloads the latest installer and launches it:
+<details>
+<summary>One-line install (Windows PowerShell)</summary>
 
 ```powershell
 $r=irm https://api.github.com/repos/ayushmgarg/keyclack/releases/latest; $u=($r.assets|?{$_.name -like '*.exe'})[0].browser_download_url; $o="$env:TEMP\KeyclackSetup.exe"; irm $u -OutFile $o; Start-Process $o
 ```
+</details>
 
-### One-line install (macOS Terminal)
+<details>
+<summary>One-line install (macOS Terminal)</summary>
 
 ```bash
 A=$([ "$(uname -m)" = arm64 ] && echo arm64 || echo x64); U=$(curl -s https://api.github.com/repos/ayushmgarg/keyclack/releases/latest | grep -o "https://[^\" ]*mac-$A.dmg" | head -1); curl -L "$U" -o ~/Downloads/Keyclack.dmg && open ~/Downloads/Keyclack.dmg
 ```
+</details>
 
-After install, Keyclack auto-updates itself from new releases.
+Once installed, Keyclack keeps itself up to date automatically.
 
-## Features (ShotgunKeyboard parity + extras)
+## Features
 
-| Feature | Status |
-| --- | --- |
-| System-wide keystroke sounds | ✅ |
-| Volume 10–100% | ✅ |
-| Test-sound preview | ✅ |
-| Hold-to-repeat toggle | ✅ |
-| Modifier-key support (Shift/Ctrl/Alt/⌘) | ✅ |
-| Launch at login | ✅ |
-| Tray / menu-bar control | ✅ |
-| Custom uploaded sounds | ✅ |
-| Play-on-release option | ✅ |
-| Stats dashboard | ✅ |
-| Typing test | ✅ |
-| Dark / light / system theme | ✅ |
-| Auto-update | ✅ |
+- 🔊 **System-wide keystroke sounds** — works in any app, even unfocused
+- 🎚️ **Volume, test-sound preview, hold-to-repeat, modifier-key toggle**
+- 🎵 **Customizable sounds** — a bundled default, or upload your own
+- 📊 **Stats dashboard** — total keystrokes, per-key counts, daily activity, best WPM
+- ⚡ **Typing test** — 15 / 30 / 60s, live WPM · accuracy · raw · consistency
+- 🌗 **Simple UI** with a one-tap on/off and dark mode
+- 🖥️ **Tray / menu-bar control** and launch-at-login
+- 🔄 **Auto-update** from GitHub Releases
 
 ## Develop
 
 ```bash
-npm install      # also generates the default sound + placeholder icons
-npm start        # run the app
+npm install    # installs deps + generates placeholder icons
+npm start      # run the app
 ```
 
 ## Build installers
 
 ```bash
-npm run dist:win   # Windows NSIS installer -> release/
+npm run dist:win   # Windows NSIS installer  -> release/
 npm run dist:mac   # macOS DMG (x64 + arm64) -> release/
 ```
 
 ## Release & auto-update
 
-Auto-update reads from **GitHub Releases** (`ayushmgarg/keyclack`). To ship:
+Auto-update reads from **GitHub Releases**. To ship a new version:
 
 1. Bump `version` in `package.json`.
 2. Commit, then tag and push:
    ```bash
    git tag v0.1.0 && git push origin v0.1.0
    ```
-3. GitHub Actions (`.github/workflows/release.yml`) builds Windows + macOS and
-   publishes the installers to the release. Existing installs pick up the update
-   automatically (checked on launch and every 6 hours).
+3. GitHub Actions builds the Windows + macOS installers and publishes them to the
+   release. Existing installs pick up the update automatically.
 
-## Swapping the default sound
+> Windows updates work unsigned. macOS auto-update requires an Apple Developer
+> signing certificate; without it the app still installs and runs, but users
+> update by re-downloading.
 
-Replace the WAVs in `assets/sounds/default/` (`press.wav`, `release.wav`) with
-your own, or regenerate the placeholders with `npm run gen:sound`. End users can
-also upload their own sound from **Sounds → Upload sound**.
+## Customizing the default sound
 
-## Permissions
+The bundled default is `assets/sounds/bundled/default.wav` — replace that file to
+change the built-in sound. Users can also upload their own from
+**Sounds → Upload sound**; their choice is saved locally and never overwrites the
+default.
 
-- **macOS** — requires *Input Monitoring* (System Settings → Privacy & Security →
-  Input Monitoring) so the global key hook works.
-- **Windows** — no special permission; SmartScreen may warn until the app is
-  code-signed.
-
-## Stack
+## Tech
 
 Electron · uiohook-napi (global hook) · Web Audio API · electron-store (local
-JSON) · electron-updater · electron-builder.
+JSON, no database) · electron-updater · electron-builder.
 
 ## License
 
-MIT © Ayush Garg
+MIT

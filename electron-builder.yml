@@ -1,6 +1,9 @@
 appId: com.keyclack.app
 productName: Keyclack
-copyright: Copyright © 2026 Ayush Garg
+
+# uiohook-napi ships prebuilt N-API binaries (ABI-stable), so no native rebuild
+# is needed. Skipping it avoids node-gyp/distutils failures on CI runners.
+npmRebuild: false
 
 directories:
   output: release

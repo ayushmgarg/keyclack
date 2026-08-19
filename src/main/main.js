@@ -10,7 +10,7 @@ const { initUpdater } = require('./updater');
 
 const APP_ROOT = app.getAppPath();
 const ASSETS = path.join(APP_ROOT, 'assets');
-const DEFAULT_SOUND_DIR = path.join(ASSETS, 'sounds', 'default');
+const BUNDLED_SOUND_DIR = path.join(ASSETS, 'sounds', 'bundled');
 const USER_SOUND_DIR = path.join(app.getPath('userData'), 'sounds');
 
 let mainWindow = null;
@@ -177,8 +177,8 @@ function listPacks() {
       id: 'default',
       name: 'Default',
       builtin: true,
-      press: path.join(DEFAULT_SOUND_DIR, 'press.wav'),
-      release: path.join(DEFAULT_SOUND_DIR, 'release.wav'),
+      press: path.join(BUNDLED_SOUND_DIR, 'default.wav'),
+      release: null,
     },
     ...custom,
   ];

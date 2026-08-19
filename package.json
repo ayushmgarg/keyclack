@@ -3,10 +3,7 @@
   "productName": "Keyclack",
   "version": "0.1.0",
   "description": "Cross-platform keystroke-sound app with live stats and a typing test.",
-  "author": {
-    "name": "Ayush Garg",
-    "email": "ayushmgarg@gmail.com"
-  },
+  "author": "Keyclack",
   "license": "MIT",
   "main": "src/main/main.js",
   "homepage": "https://github.com/ayushmgarg/keyclack",
@@ -16,9 +13,8 @@
   },
   "scripts": {
     "start": "electron .",
-    "gen:sound": "node scripts/gen-default-sound.js",
     "gen:icons": "node scripts/gen-icons.js",
-    "postinstall": "node scripts/gen-default-sound.js && node scripts/gen-icons.js",
+    "postinstall": "node scripts/gen-icons.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "dist:win": "electron-builder --win",
